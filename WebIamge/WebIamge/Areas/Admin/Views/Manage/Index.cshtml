@@ -1,0 +1,86 @@
+﻿@using WebIamge.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<Manage>
+@*@model IEnumerable<WebIamge.Models.Manage>*@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <strong class="text-uppercase text-danger">Danh sách hình ảnh</strong>
+            </div>
+            <div class="col-md-6 text-end">
+                <a href="@Url.Action("Create","Manage")" class="btn btn-sm btn-success">
+                    <i class="fa-solid fa-plus"></i>Thêm
+                </a>
+                <a href="@Url.Action("Trash", "Manage")" class="btn btn-sm btn-danger">
+                    <i class="fa-solid fa-trash"></i>Ảnh đã xóa
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer p-3">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th style="width:20px;" class="text-center">#</th>
+                    <th style="width:40px;" class="text-center">Hình ảnh</th>
+                    <th style="width:20px;" class="text-center">Tên hình ảnh</th>
+                    <th style="width:20px;" class="text-center">Chức năng</th>
+                    <th style="width:20px;" class="text-center">ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <input name="checkId" type="checkbox" />
+                        </td>
+                        <td>
+                            <img src="~/Public/images/@item.Image" class="img-fluid" />
+                        </td>
+                        <td>@item.NameImage</td>
+
+                        <td class="text-center">
+                            @if (item.Status == 1)
+                            {
+                                <a href="@Url.Action("Status","Manage", new {@id = item.Id })" class="btn btn-sm btn-success">
+                                    <i class="fa-solid fa-toggle-on"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Status","Manage", new {@id = item.Id })" class="btn btn-sm btn-danger">
+                                    <i class="fa-solid fa-toggle-off"></i>
+                                </a>
+                            }
+                            <a href="@Url.Action("Edit","Manage", new {@id = item.Id })" class="btn btn-sm btn-info">
+                                <i class="fa-solid fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Details","Manage", new {@id = item.Id })" class="btn btn-sm btn-warning">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="@Url.Action("DelTrash","Manage", new {@id = item.Id })" class="btn btn-sm btn-danger">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">@item.Id</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount;
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+

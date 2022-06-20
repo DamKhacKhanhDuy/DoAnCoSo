@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebIamge.Models.Manage>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <strong class="text-uppercase text-danger">Ảnh đã xóa</strong>
+            </div>
+            <div class="col-md-6 text-end">
+                <a href="@Url.Action("Index","Manage")" class="btn btn-sm btn-success">
+                    <i class="fa-solid fa-arrow-left-long"></i>Quay về danh sách
+                </a>
+                
+            </div>
+        </div>
+    </div>
+    <div class="card-footer p-3">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th style="width:20px;" class="text-center">#</th>
+                    <th>Tên hình ảnh</th>
+                    <th style="width:90px;" class="text-center">Hình ảnh</th>
+                    <th style="width:180px;" class="text-center">Chức năng</th>
+                    <th style="width:20px;" class="text-center">ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <input name="checkId" type="checkbox" />
+                        </td>
+                        <td>@item.NameImage</td>
+                        <td>@item.Image</td>
+                        <td class="text-center">
+                           
+                            <a href="@Url.Action("ReTrash","Manage", new {@id = item.Id })" class="btn btn-sm btn-info">
+                                <i class="fa-solid fa-arrow-rotate-left"></i>
+                            </a>
+                            <a href="@Url.Action("Delete","Manage", new {@id = item.Id })" class="btn btn-sm btn-danger">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">@item.Id</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
